@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+#include <math.h>
+#include <string>
+struct BangDiem {
+	int slMac;
+	int slDaiSo;
+	int slCPlus;
+	float* Mac;
+	float* DaiSo;
+	float* CPlus;
+};
+
+struct SV {
+	string hoTen;
+	bool phai;
+	string ngaySinh;
+	string masv;
+	BangDiem bangdiem;
+};
+ostream& operator<<(ostream& os, SV obj) {
+	os << "Ho ten: " << obj.hoTen << endl;
+	os << "Phai: " << (obj.phai ? "nam" : "nu") << endl;
+	os << "ma SV: " << obj.masv << endl;
+	os << "Ngay sinh: " << obj.ngaySinh << endl;
+
+	return os;
+}
+int main()
+{
+	int n;
+	cout << "Nhap so luong sv: " << endl;
+	cin >> n;
+
+	return 0;
+}
