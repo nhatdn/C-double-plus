@@ -33,16 +33,11 @@ monHoc* x = new monHoc(3, "Van");
 #include "QuanLiSinhVien.h"
 using namespace std;
 int main() {
-	QuanLiSinhVien* qlsv = new QuanLiSinhVien();
-	//cout << qlsv->soSanhNgaySinh("30/05/2001", "25/07/2001") << endl;
-	//qlsv->HoanViSinhVien(qlsv->sv, qlsv->sv->pointer, qlsv->sv->pointer, qlsv->sv->pointer->pointer);
-	qlsv->sapXepTheoNgaySinh();
-	qlsv->xuatSinhVien(); // xuất sinh viên
-	// qlsv->nhapDiemSinhVien(); // nhập điểm cho sinh viên
-	// qlsv->xuatDiemSinhVien(); // xuất điểm cho sinh viên
-	// qlsv->xoaSinhVien(); // xóa sinh viên
-	// sắp xếp sinh viên theo họ tên
-	// sắp xếp sinh viên theo ngày tháng năm sinh
+	QuanLiSinhVien* qlsv = new QuanLiSinhVien("QLSV.txt");
+	qlsv->Menu(); 
+	sinhVien* a = new sinhVien("nhat", "ngay sinh", "gioi tinh", "id");
+	cout << *a;
 	system("pause");
 	return 0;
 }
+

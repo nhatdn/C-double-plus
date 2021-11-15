@@ -7,78 +7,12 @@
 #include <sstream>
 class QuanLiSinhVien
 {
-
-public:
+private:
 	ifstream input;
 	int slsv; // so luong sinh vien
 	sinhVien* sv;
-
-	vector<string> split(const string& s, char delim) {
-		vector<string> result;
-		stringstream ss(s);
-		string item;
-
-		while (getline(ss, item, delim)) {
-			result.push_back(item);
-		}
-
-		return result;
-	}
-	QuanLiSinhVien() {
-		input.open("QLSV.txt");
-		string name;
-		string gender;
-		string birthday;
-		string id;
-		getline(input, id);
-		getline(input, name);
-		getline(input, gender);
-		getline(input, birthday);
-		sv = new sinhVien(name, gender, birthday, id);
-		sinhVien* temp = sv;
-		while (!input.eof()) {
-			getline(input, id);
-			getline(input, name);
-			getline(input, gender);
-			getline(input, birthday);
-			temp->pointer = new sinhVien(name, gender, birthday, id);
-			temp = temp->pointer;
-		}
-		temp->pointer = NULL;
-	}
-	~QuanLiSinhVien() {
-		input.close();
-	}
-	void xuatSinhVien() {
-		for (sinhVien * temp = sv; temp != NULL; temp = temp->pointer) {
-			temp->xuatThongTin();
-		}
-	}
-	void xoaSinhVien() {
-		cout << "Nhap id can xoa: " << endl;
-		string id;
-		getline(cin, id);
-		sinhVien * del = NULL;
-		sinhVien * beforePointer = NULL;
-		for (sinhVien* temp = sv; temp != NULL; temp = temp->pointer) {
-			if (temp->getId() == id) {
-				del = temp;
-				break;
-			}
-			beforePointer = temp;
-		}
-		if (del == NULL) {
-			cout << "ID vua nhap khong ton tai" << endl;
-		}
-		else {
-			if (beforePointer == NULL) {
-				sv = sv->pointer;
-			} else {
-				beforePointer->pointer = del->pointer;
-			}
-		}
-	}
-	sinhVien * General() {
+	sinhVien* endPoint;
+	sinhVien* sinhVienTonTai() {
 		cout << "Nhap id sinh vien: " << endl;
 		string id;
 		getline(cin, id);
@@ -88,24 +22,6 @@ public:
 			}
 		}
 		return NULL;
-	}
-	void nhapDiemSinhVien() {
-		sinhVien* temp = General();
-		if (temp == NULL) {
-			cout << "ID sinh vien vua nhap khong ton tai" << endl;
-		}
-		else {
-			temp->nhapDiem();
-		}
-	}
-	void xuatDiemSinhVien() {
-		sinhVien* temp = General();
-		if (temp == NULL) {
-			cout << "ID sinh vien vua nhap khong ton tai" << endl;
-		}
-		else {
-			temp->xuatDiem();
-		}
 	}
 	bool soSanhNgaySinh(string a, string b) {
 		string splitNgaySinhA[3], splitNgaySinhB[3];
@@ -118,7 +34,7 @@ public:
 		if (splitNgaySinhB[2] > splitNgaySinhA[2]) {
 			return false;
 		}
-		else if(splitNgaySinhB[2] == splitNgaySinhA[2]){
+		else if (splitNgaySinhB[2] == splitNgaySinhA[2]) {
 			if (splitNgaySinhB[1] > splitNgaySinhA[1]) {
 				return false;
 			}
@@ -138,11 +54,28 @@ public:
 			return true;
 		}
 	}
-	
 	bool soSanhTen(string a, string b) {
-		
+		int lenA = a.length();
+		int lenB = b.length();
+		while (lenA > 0 && a[--lenA] != ' ');
+		while (lenB > 0 && b[--lenB] != ' ');
+		string nameA = lenA == 0 ? a.substr(lenA, a.length()) : a.substr(lenA + 1, a.length());
+		string nameB = lenB == 0 ? b.substr(lenB, b.length()) : b.substr(lenB + 1, b.length());
+		if (nameA.compare(nameB) > 0) {
+			return true;
+		}
+		else if (nameA.compare(nameB) == 0) {
+
+			while (lenA < a.length() && a[++lenA] != ' ');
+			while (lenB < b.length() && b[++lenB] != ' ');
+			nameA = lenA == 0 ? a.substr(0, lenA) : a.substr(0, lenA + 1);
+			nameB = lenB == 0 ? b.substr(0, lenB) : b.substr(0, lenB + 1);
+			return nameA.compare(nameB) > 0;
+		}
+		return false;
 	}
-	void HoanViSinhVien(sinhVien * beforeA, sinhVien* a, sinhVien* beforeB,sinhVien *b) {
+
+	void HoanViSinhVien(sinhVien* beforeA, sinhVien* a, sinhVien* beforeB, sinhVien* b) {
 		sinhVien* temp;
 		if (beforeA == NULL) { // A dau, B cuoi
 			if (b->pointer == NULL) { // đầu đổi cho cuối
@@ -165,7 +98,7 @@ public:
 				b->pointer = a;
 				a->pointer = NULL;
 			}
-			else if(a->pointer->pointer == NULL){ // gần cuối A và cuối B a=beforeA
+			else if (a->pointer->pointer == NULL) { // gần cuối A và cuối B a=beforeA
 				temp = b->pointer;
 				b->pointer = a;
 				beforeA->pointer = b;
@@ -177,7 +110,7 @@ public:
 				beforeB->pointer = a;
 				a->pointer = NULL;
 			}
-			
+
 		}
 		else { // giữa đổi cho giữa 
 			if (a == beforeB) { // giua giua lien ke
@@ -195,25 +128,127 @@ public:
 			}
 		}
 	}
-	bool compareFunction(string s1, string s2) // name
-	{
-		// comparing both using inbuilt function
-		int x = s1.compare(s2);
-		if (x != 0) {
-			cout << s1 << " is not equal to "
-				<< s2 << endl;
-			if (x > 0)
-				cout << s1 << " is greater than " << s2 << endl;
-			else
-				cout << s2 << " is greater than " << s1 << endl;
+public:
+	void ThemSinhVien() {
+		string name;
+		string gender;
+		string birthday;
+		string id;
+		cout << "Nhap id cho sinh vien moi: ";
+		getline(cin, id);
+		bool checking = false;
+		for (sinhVien* temp = sv; temp != NULL; temp = temp->pointer) {
+			if (temp->getId() == id) {
+				cout << "ID nay da ton tai" << endl;
+				checking = true;
+				break;
+			}
+		}
+		if (checking) {
+			return;
+		}
+		cout << "Nhap ten cho sinh vien moi: ";
+		getline(cin, name);
+		cout << "Nhap ngay sinh cho sinh vien moi: ";
+		getline(cin, birthday);
+		cout << "Nhap gioi tinh cho sinh vien moi: ";
+		getline(cin, gender);
+		endPoint->pointer = new sinhVien(name, gender, birthday, id);
+		endPoint = endPoint->pointer;
+	}
+	QuanLiSinhVien(string filename) {
+		input.open(filename);
+		string name;
+		string gender;
+		string birthday;
+		string id;
+		getline(input, id);
+		getline(input, name);
+		getline(input, gender);
+		getline(input, birthday);
+		sv = new sinhVien(name, gender, birthday, id);
+		sinhVien* temp = sv;
+		while (!input.eof()) {
+			getline(input, id);
+			getline(input, name);
+			getline(input, gender);
+			getline(input, birthday);
+			temp->pointer = new sinhVien(name, gender, birthday, id);
+			temp = temp->pointer;
+		}
+		endPoint = temp;
+		temp->pointer = NULL;
+	}
+	~QuanLiSinhVien() {
+		delete sv;
+		input.close();
+	}
+	void xuatSinhVien() {
+		for (sinhVien * temp = sv; temp != NULL; temp = temp->pointer) {
+			temp->xuatThongTin();
+		}
+	}
+	void xoaSinhVien() {
+		cout << "Nhap id can xoa: ";
+		string id;
+		getline(cin, id);
+		sinhVien * del = NULL;
+		sinhVien * beforePointer = NULL;
+		for (sinhVien* temp = sv; temp != NULL; temp = temp->pointer) {
+			if (temp->getId() == id) {
+				del = temp;
+				break;
+			}
+			beforePointer = temp;
+		}
+		if (del == NULL) {
+			cout << "ID vua nhap khong ton tai" << endl;
 		}
 		else {
-			cout << s1 << " is equal to " << s2 << endl;
+			if (beforePointer == NULL) {
+				sv = sv->pointer;
+			} else {
+				beforePointer->pointer = del->pointer;
+			}
+			cout << "Xoa thanh cong" << endl;
 		}
-		return true;
 	}
-	void sapXepTheoNgaySinh() {
+	
+	void nhapDiemSinhVien() {
+		sinhVien* temp = sinhVienTonTai();
+		if (temp == NULL) {
+			cout << "ID sinh vien vua nhap khong ton tai" << endl;
+		}
+		else {
+			temp->nhapDiem();
+		}
+	}
+	void xuatDiemSinhVien() {
+		sinhVien* temp = sinhVienTonTai();
+		if (temp == NULL) {
+			cout << "ID sinh vien vua nhap khong ton tai" << endl;
+		}
+		else {
+			temp->xuatDiem();
+		}
+	}
+	
+	void sapXepTheoTen() {
 		sinhVien * beforeA = NULL, * beforeB; 
+		for (sinhVien* temp = sv; temp != NULL; temp = temp->pointer) {
+			beforeB = temp;
+			for (sinhVien* tam = temp->pointer; tam != NULL; tam = tam->pointer) {
+				if (soSanhTen(temp->getTen(), tam->getTen()) && tam != temp) {
+					HoanViSinhVien(beforeA, temp, beforeB, tam);
+					temp = beforeA == NULL ? sv : beforeA;
+				}
+				beforeB = tam;
+			}
+			beforeA = temp;
+		}
+	}
+	void sapXepNgaySinh() {
+		sinhVien* beforeA = NULL, * beforeB;
 		for (sinhVien* temp = sv; temp != NULL; temp = temp->pointer) {
 			beforeB = temp;
 			for (sinhVien* tam = temp->pointer; tam != NULL; tam = tam->pointer) {
@@ -224,6 +259,61 @@ public:
 				beforeB = tam;
 			}
 			beforeA = temp;
+		}
+	}
+	int Option() {
+		cout << "1. Xem danh sach sinh vien sap xep theo ten." << endl;
+		cout << "2. Xem danh sach sinh vien sap xep theo ngay sinh." << endl;
+		cout << "3. Xoa 1 sinh vien bang ID." << endl;
+		cout << "4. Xem diem sinh vien." << endl;
+		cout << "5. Nhap diem sinh vien." << endl;
+		cout << "6. Them sinh vien." << endl;
+		cout << "7. Thoat" << endl;
+		cout << "Nhap lua chon: ";
+		int n;
+		cin >> n;
+		while (getchar() != '\n');
+		return n;
+	}
+	void Menu() {
+		while (true)
+		{
+			switch (Option())
+			{
+				case 1: {
+					sapXepTheoTen();
+					xuatSinhVien();
+					break;
+				}
+				case 2: {
+					sapXepNgaySinh();
+					xuatSinhVien();
+					break;
+				}
+				case 3: {
+					xoaSinhVien();
+					break;
+				}
+				case 4: {
+					xuatDiemSinhVien();
+					break;
+				}
+				case 5: {
+					nhapDiemSinhVien();
+					break;
+				}
+				case 6: {
+					
+					ThemSinhVien();
+					break;
+				}
+				default: {
+					exit(0);
+					break;
+				}	
+			}
+			system("pause");
+			system("cls");
 		}
 	}
 };

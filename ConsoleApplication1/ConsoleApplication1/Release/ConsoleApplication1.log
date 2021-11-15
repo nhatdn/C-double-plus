@@ -1,0 +1,12 @@
+﻿  ConsoleApplication1.cpp
+E:\C\ConsoleApplication1\ConsoleApplication1\QuanLiSinhVien.h(69,16): warning C4018: '<': signed/unsigned mismatch
+E:\C\ConsoleApplication1\ConsoleApplication1\QuanLiSinhVien.h(70,16): warning C4018: '<': signed/unsigned mismatch
+  QuanLiSinhVien.cpp
+E:\C\ConsoleApplication1\ConsoleApplication1\QuanLiSinhVien.h(69,16): warning C4018: '<': signed/unsigned mismatch
+E:\C\ConsoleApplication1\ConsoleApplication1\QuanLiSinhVien.h(70,16): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  0 of 238 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  ConsoleApplication1.vcxproj -> E:\C\ConsoleApplication1\Release\ConsoleApplication1.exe
