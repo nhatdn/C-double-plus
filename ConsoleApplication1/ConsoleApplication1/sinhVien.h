@@ -94,4 +94,10 @@ class sinhVien
 				}
 			}
 		}
+		string getNgaySinh() {
+			return _birthday;
+		}
+		string getTen() {
+			return _name;
+		}
 };

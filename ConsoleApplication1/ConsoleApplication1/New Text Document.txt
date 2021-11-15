@@ -1,0 +1,43 @@
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool soSanhNgaySinh(string a, string b) {
+		string splitNgaySinhA[3], splitNgaySinhB[3];
+		for (int i = 0; i < 3; i++) {
+			splitNgaySinhA[i] = a.substr(0, a.find("/"));
+			a.erase(0, a.find("/") + 1);
+			splitNgaySinhB[i] = b.substr(0, b.find("/"));
+			b.erase(0, b.find("/") + 1);
+			//cout << "A: " << splitNgaySinhB[i] << endl;
+		}
+		if (splitNgaySinhB[2] > splitNgaySinhA[2]) {
+			return false;
+		}
+		else if(splitNgaySinhB[2] == splitNgaySinhA[2]){
+			if (splitNgaySinhB[1] > splitNgaySinhA[1]) {
+				return false;
+			}
+			else if (splitNgaySinhB[1] == splitNgaySinhA[1]) {
+				if (splitNgaySinhB[0] >= splitNgaySinhA[0]) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+			else {
+				return true;
+			}
+		}
+		else {
+			return true;
+		}
+	}
+int main()
+{
+    cout<< soSanhNgaySinh("30/07/2001","30/07/2001");
+
+    return 0;
+}
