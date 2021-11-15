@@ -4,7 +4,7 @@
 using namespace std;
 class sinhVien
 {
-	private:
+private:
 		string _name;
 		string _gender;
 		string _birthday;
@@ -12,7 +12,7 @@ class sinhVien
 		monHoc * _toan;
 		monHoc * _mac;
 		monHoc * _cPlus;
-	public: 
+public:
 		sinhVien* pointer;
 		sinhVien(string name, string gender, string birthday, string id) {
 			pointer = NULL;
@@ -42,6 +42,7 @@ class sinhVien
 			cout << "1. Xuat diem mon toan" << endl;
 			cout << "2. Xuat diem mon Mac" << endl;
 			cout << "3. Xuat diem mon CPlus" << endl;
+			cout << "Vui long chon: ";
 			int i;
 			cin >> i;
 			while (getchar() != '\n');
@@ -70,6 +71,7 @@ class sinhVien
 			cout << "1. Nhap diem mon toan" << endl;
 			cout << "2. Nhap diem mon Mac" << endl;
 			cout << "3. Nhap diem mon CPlus" << endl;
+			cout << "Vui long chon: ";
 			int i;
 			cin >> i;
 			while (getchar() != '\n');
@@ -100,4 +102,24 @@ class sinhVien
 		string getTen() {
 			return _name;
 		}
+		/*friend istream& operator>>(istream& is, sinhVien& obj) // error when it runs code
+		{
+			cout << "Nhap id: " << endl;
+			getline(is, obj._id);
+			cout << "Nhap ten: " << endl;
+			getline(is, obj._name);
+			cout << "Nhap gioi tinh: " << endl;
+			getline(is, obj._gender);
+			cout << "Nhap ngay sinh: " << endl;
+			getline(is, obj._birthday);
+			return is;
+		}
+		friend ostream& operator<<(ostream& os, sinhVien obj)
+		{
+			os << "Id: " << obj._id << endl;
+			os << "Gioi tinh: " << obj._gender << endl;
+			os << "Ngay Sinh: " << obj._birthday << endl;
+			os << "Ten: " << obj._name << endl;
+			return os;
+		}*/
 };

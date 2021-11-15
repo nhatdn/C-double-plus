@@ -62,6 +62,10 @@ class monHoc
 			this->hienTai++;
 		}
 		void xuatDanhSachDiem() {
+			if (hienTai == 0) {
+				cout << "Chua co diem, vui long nhap truoc khi xem" << endl;
+				return;
+			}
 			for (int i = 0; i < hienTai; i++) {
 				cout << _tenDiem[i] << ": " << _bangDiem[i] << endl;
 			}
